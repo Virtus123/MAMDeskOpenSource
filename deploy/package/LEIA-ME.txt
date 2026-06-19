@@ -14,7 +14,7 @@ Se o Windows SmartScreen avisar:
    • Clique em "Mais informações"
    • Depois em "Executar assim mesmo"
 
-O MAMDesk é software open source de suporte remoto (https://github.com/Virtus123/MAMDesk).
+O MAMDesk é software open source de suporte remoto (https://github.com/Virtus123/MAMDeskOpenSource).
 Antivírus podem alertar em apps novos sem assinatura digital — use releases assinadas quando disponíveis.
 
 Documentação: https://github.com/Virtus123/MAMDesk
