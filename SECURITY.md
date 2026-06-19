@@ -9,7 +9,7 @@
 
 ## Reportar vulnerabilidade
 
-Envie um e-mail para **vitorfernandes.y02@gmail.com** (ou abra um [GitHub Security Advisory](https://github.com/Virtus123/MAMDesk/security/advisories/new) privado).
+Envie um e-mail para **vitorfernandes.y02@gmail.com** (ou abra um [GitHub Security Advisory](https://github.com/Virtus123/MAMDeskOpenSource/security/advisories/new) privado).
 
 Inclua:
 - Descrição do problema

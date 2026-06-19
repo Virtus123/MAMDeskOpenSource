@@ -1,6 +1,6 @@
 # MAMDesk
 
-[![CI](https://github.com/Virtus123/MAMDesk/actions/workflows/ci.yml/badge.svg)](https://github.com/Virtus123/MAMDesk/actions/workflows/ci.yml)
+[![CI](https://github.com/Virtus123/MAMDeskOpenSource/actions/workflows/ci.yml/badge.svg)](https://github.com/Virtus123/MAMDeskOpenSource/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Plataforma de suporte remoto estilo AnyDesk, com dois clientes Windows e servidor centralizado self-hosted.

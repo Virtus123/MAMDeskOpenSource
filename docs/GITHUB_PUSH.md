@@ -1,6 +1,6 @@
-# Publicar no GitHub (Virtus123/MAMDesk)
+# Publicar no GitHub (Virtus123/MAMDeskOpenSource)
 
-O GitHub CLI (`gh`) não está instalado ou autenticado nesta máquina. Siga os passos abaixo manualmente.
+O `gh` CLI já está instalado nesta máquina. Falta só autenticar e dar push (2FA exige login pelo navegador ou PAT).
 
 ## 1. Criar Personal Access Token (PAT)
 
@@ -14,7 +14,7 @@ O GitHub CLI (`gh`) não está instalado ou autenticado nesta máquina. Siga os 
 ## 2. Criar repositório no GitHub
 
 1. https://github.com/new  
-2. **Repository name:** `MAMDesk`  
+2. **Repository name:** `MAMDeskOpenSource`  
 3. **Visibility:** Public  
 4. **Não** marque "Add a README" (o projeto já tem um)  
 5. Crie o repositório
@@ -33,7 +33,7 @@ git status
 
 git commit -m "Open source: MAMDesk remote support platform"
 git branch -M main
-git remote add origin https://github.com/Virtus123/MAMDesk.git
+git remote add origin https://github.com/Virtus123/MAMDeskOpenSource.git
 git push -u origin main
 ```
 
@@ -44,19 +44,24 @@ Quando o Git pedir credenciais:
 | Username | `Virtus123` |
 | Password | **Cole o PAT** (não use a senha da conta com 2FA) |
 
-## 4. Alternativa: GitHub CLI (opcional)
+## 4. Caminho rápido com GitHub CLI (recomendado)
+
+O remote `origin` já aponta para `https://github.com/Virtus123/MAMDeskOpenSource.git`.
 
 ```powershell
-winget install GitHub.cli
+cd C:\Users\vitor\OneDrive\Desktop\MAMDESK
 gh auth login
-# Escolha: GitHub.com → HTTPS → Login with browser (ou token)
+# GitHub.com → HTTPS → Login with a web browser (2FA no celular)
 
-gh repo create Virtus123/MAMDesk --public --source=. --remote=origin --push
+# Se o repo ainda não existir no GitHub:
+gh repo create MAMDeskOpenSource --public --source=. --remote=origin
+
+git push -u origin main
 ```
 
 ## 5. Após o push
 
-1. Confira https://github.com/Virtus123/MAMDesk  
+1. Confira https://github.com/Virtus123/MAMDeskOpenSource  
 2. Solicite certificado SignPath: [SIGNPATH_APPLY.md](SIGNPATH_APPLY.md)  
 3. Após aprovação SignPath, configure secrets no GitHub:
    - `SIGNPATH_API_TOKEN` (secret)

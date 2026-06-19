@@ -12,7 +12,7 @@ git init
 git add .
 git commit -m "Open source: MAMDesk remote support"
 git branch -M main
-git remote add origin https://github.com/Virtus123/MAMDesk.git
+git remote add origin https://github.com/Virtus123/MAMDeskOpenSource.git
 git push -u origin main
 ```
 
@@ -36,7 +36,7 @@ Após aprovação, no painel SignPath:
 | Campo | Valor |
 |-------|--------|
 | Project slug | `MAMDesk` |
-| Repository URL | `https://github.com/Virtus123/MAMDesk` |
+| Repository URL | `https://github.com/Virtus123/MAMDeskOpenSource` |
 | Trusted build system | GitHub.com (instale o app SignPath no repo) |
 
 **Artifact configuration:** importe o arquivo  

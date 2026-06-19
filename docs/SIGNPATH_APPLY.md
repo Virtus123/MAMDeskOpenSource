@@ -4,7 +4,7 @@ O certificado **não pode ser obtido automaticamente**. Siga os passos abaixo ap
 
 ## Pré-requisitos
 
-- Repositório **público**: https://github.com/Virtus123/MAMDesk
+- Repositório **público**: https://github.com/Virtus123/MAMDeskOpenSource
 - Licença MIT (já incluída no projeto)
 - Builds via GitHub Actions (workflow `release.yml`)
 
@@ -22,7 +22,7 @@ Use o texto abaixo (copie e cole nos campos correspondentes):
 **Nome do projeto:** MAMDesk
 
 **URL do repositório:**  
-https://github.com/Virtus123/MAMDesk
+https://github.com/Virtus123/MAMDeskOpenSource
 
 **Licença:** MIT
 
