@@ -6,12 +6,15 @@ namespace MAMDesk.Shared.Services;
 
 public static class SettingsLoader
 {
+    public const string DefaultServerUrl = "http://191.252.208.95:8100";
+    public const string DefaultWsUrl = "ws://191.252.208.95:8100";
+
     public static AppSettings Load(string? appBasePath = null)
     {
         var settings = new AppSettings
         {
-            ServerUrl = Environment.GetEnvironmentVariable("MAMDESK_SERVER") ?? "http://localhost:8100",
-            WsUrl = Environment.GetEnvironmentVariable("MAMDESK_WS") ?? "ws://localhost:8100",
+            ServerUrl = Environment.GetEnvironmentVariable("MAMDESK_SERVER") ?? DefaultServerUrl,
+            WsUrl = Environment.GetEnvironmentVariable("MAMDESK_WS") ?? DefaultWsUrl,
         };
 
         try

@@ -1,5 +1,6 @@
 using System.IO;
 using System.Windows;
+using MAMDesk.Shared.Services;
 
 namespace MAMDesk.Operator;
 
@@ -55,8 +56,8 @@ public partial class App : Application
 
 public sealed class AppSettingsHolder
 {
-    public string ServerUrl { get; init; } = "http://localhost:8100";
-    public string WsUrl { get; init; } = "ws://localhost:8100";
+    public string ServerUrl { get; init; } = SettingsLoader.DefaultServerUrl;
+    public string WsUrl { get; init; } = SettingsLoader.DefaultWsUrl;
     public string? Token { get; set; }
     public string? UserName { get; set; }
 

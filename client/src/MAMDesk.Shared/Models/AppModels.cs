@@ -1,11 +1,12 @@
 using System.Text.Json.Serialization;
+using MAMDesk.Shared.Services;
 
 namespace MAMDesk.Shared.Models;
 
 public sealed class AppSettings
 {
-    public string ServerUrl { get; set; } = "http://localhost:8000";
-    public string WsUrl { get; set; } = "ws://localhost:8000";
+    public string ServerUrl { get; set; } = SettingsLoader.DefaultServerUrl;
+    public string WsUrl { get; set; } = SettingsLoader.DefaultWsUrl;
 }
 
 public sealed class UserDto
