@@ -133,7 +133,8 @@
         <Border x:Name="VideoArea" Grid.Row="1" Background="#0B1220" Focusable="True"
                 MouseMove="VideoArea_MouseMove"
                 MouseDown="VideoArea_MouseDown"
-                MouseUp="VideoArea_MouseUp">
+                MouseUp="VideoArea_MouseUp"
+                PreviewMouseWheel="VideoArea_PreviewMouseWheel">
             <Grid>
                 <Viewbox x:Name="VideoViewbox" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid Width="{Binding ElementName=RemoteImage, Path=Width}"

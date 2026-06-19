@@ -69,6 +69,10 @@ public static class InputSimulator
                 mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
                 mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
                 break;
+            case "wheel":
+                if (input.Delta is int delta && delta != 0)
+                    mouse_event(MOUSEEVENTF_WHEEL, 0, 0, delta, 0);
+                break;
         }
     }
 
@@ -135,6 +139,7 @@ public static class InputSimulator
     private const int MOUSEEVENTF_LEFTUP = 0x0004;
     private const int MOUSEEVENTF_RIGHTDOWN = 0x0008;
     private const int MOUSEEVENTF_RIGHTUP = 0x0010;
+    private const int MOUSEEVENTF_WHEEL = 0x0800;
 
     [StructLayout(LayoutKind.Sequential)]
     private struct INPUT

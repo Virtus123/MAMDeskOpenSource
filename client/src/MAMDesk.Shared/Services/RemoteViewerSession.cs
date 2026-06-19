@@ -62,6 +62,16 @@ public sealed class RemoteViewerSession : IAsyncDisposable
         }, ct);
     }
 
+    public async Task SendMouseWheelAsync(int x, int y, int delta, CancellationToken ct = default)
+    {
+        await _signaling.SendAsync(new SignalingMessage
+        {
+            Type = "input",
+            SessionId = _sessionId,
+            Input = new InputPayload { Tipo = "mouse", X = x, Y = y, Click = "wheel", Delta = delta },
+        }, ct);
+    }
+
     /// <summary>Envia movimento do mouse com coalescing (~250 Hz máx) para baixa latência.</summary>
     public void SendMouseMove(int x, int y)
     {

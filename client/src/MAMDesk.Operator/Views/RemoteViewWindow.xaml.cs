@@ -294,6 +294,15 @@ public partial class RemoteViewWindow : Window
         return ((int)Math.Round(frameX), (int)Math.Round(frameY), true);
     }
 
+    private async void VideoArea_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        if (_sessionClosed || _tool != DrawTool.Pointer) return;
+        var (x, y, valid) = GetFrameCoords(e);
+        if (!valid) return;
+        e.Handled = true;
+        await _session.SendMouseWheelAsync(x, y, e.Delta);
+    }
+
     private void VideoArea_MouseMove(object sender, MouseEventArgs e)
     {
         if (_sessionClosed) return;

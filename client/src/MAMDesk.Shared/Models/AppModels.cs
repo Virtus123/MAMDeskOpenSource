@@ -136,6 +136,9 @@ public sealed class InputPayload
     [JsonPropertyName("click")]
     public string? Click { get; set; }
 
+    [JsonPropertyName("delta")]
+    public int? Delta { get; set; }
+
     [JsonPropertyName("key")]
     public string? Key { get; set; }
 
