@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>MAMDesk — Painel Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --surface: #141c2e;
+      --surface2: #1a2438;
+      --border: #2a3650;
+      --text: #e8edf7;
+      --muted: #8b9bb8;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "DM Sans", system-ui, sans-serif;
+      background: radial-gradient(ellipse 80% 60% at 50% -20%, #1e3a5f 0%, var(--bg) 55%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    header { text-align: center; margin-bottom: 2rem; }
+    header h1 { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em; }
+    header p { color: var(--muted); margin-top: 0.35rem; font-size: 0.95rem; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      box-shadow: 0 20px 50px rgba(0,0,0,.35);
+    }
+    label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 0.35rem; font-weight: 500; }
+    input {
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font: inherit;
+      margin-bottom: 1rem;
+    }
+    input:focus { outline: 2px solid var(--primary); border-color: transparent; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+      padding: 0.65rem 1.1rem; border: none; border-radius: 8px; font: inherit; font-weight: 600;
+      cursor: pointer; transition: background .15s, transform .1s;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background: var(--primary); color: #fff; width: 100%; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-sm { padding: 0.4rem 0.75rem; font-size: 0.85rem; }
+    .btn-success { background: var(--success); color: #0f172a; }
+    .btn-danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
+    .error { color: var(--danger); font-size: 0.875rem; margin-bottom: 1rem; display: none; }
+    .toolbar {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 1rem; margin-bottom: 1.25rem;
+    }
+    .toolbar h2 { font-size: 1.1rem; font-weight: 600; }
+    .badge {
+      display: inline-block; padding: 0.2rem 0.55rem; border-radius: 999px;
+      font-size: 0.75rem; font-weight: 600;
+    }
+    .badge-pending { background: rgba(245,158,11,.2); color: var(--warning); }
+    .badge-ok { background: rgba(34,197,94,.2); color: var(--success); }
+    .badge-admin { background: rgba(59,130,246,.25); color: #93c5fd; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { text-align: left; padding: 0.75rem 0.5rem; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 500; font-size: 0.78rem; text-transform: uppercase; letter-spacing: .04em; }
+    tr:last-child td { border-bottom: none; }
+    .actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .hidden { display: none !important; }
+    .logout { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+    .logout:hover { color: var(--text); border-color: var(--muted); }
+    .toolbar-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-outline:hover { border-color: var(--primary); color: #93c5fd; }
+    .form-grid { display: grid; gap: 0.75rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    @media (max-width: 640px) { .form-row { grid-template-columns: 1fr; } }
+    .checkbox-row {
+      display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;
+      font-size: 0.875rem; color: var(--muted);
+    }
+    .checkbox-row input { width: auto; margin: 0; }
+    .success { color: var(--success); font-size: 0.875rem; margin-bottom: 1rem; display: none; }
+    .stats { display: flex; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+    .stat {
+      flex: 1; min-width: 120px; background: var(--surface2); border-radius: 10px;
+      padding: 0.85rem 1rem; border: 1px solid var(--border);
+    }
+    .stat strong { display: block; font-size: 1.4rem; font-weight: 700; }
+    .stat span { font-size: 0.78rem; color: var(--muted); }
+    @media (max-width: 640px) {
+      table, thead, tbody, th, td, tr { display: block; }
+      thead { display: none; }
+      tr { margin-bottom: 1rem; padding: 0.75rem; background: var(--surface2); border-radius: 8px; }
+      td { border: none; padding: 0.35rem 0; }
+      td::before {
+        content: attr(data-label);
+        display: block; font-size: 0.72rem; color: var(--muted); margin-bottom: 0.15rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>MAMDesk Admin</h1>
+      <p>Aprove operadores ou cadastre novos usuários</p>
+    </header>
+
+    <section id="loginView" class="card" style="max-width: 400px; margin: 0 auto;">
+      <form id="loginForm">
+        <label for="email">E-mail</label>
+        <input id="email" type="email" autocomplete="username" required placeholder="admin@exemplo.com"/>
+        <label for="password">Senha</label>
+        <input id="password" type="password" autocomplete="current-password" required/>
+        <p id="loginError" class="error"></p>
+        <button type="submit" class="btn btn-primary">Entrar</button>
+      </form>
+    </section>
+
+    <section id="panelView" class="hidden">
+      <div class="toolbar">
+        <h2>Usuários</h2>
+        <div class="toolbar-actions">
+          <button type="button" class="btn btn-sm btn-primary" id="showRegisterBtn" style="width:auto">+ Novo operador</button>
+          <button type="button" class="btn btn-sm logout" id="logoutBtn">Sair</button>
+        </div>
+      </div>
+
+      <section id="registerView" class="card hidden" style="margin-bottom: 1.25rem;">
+        <h3 style="margin-bottom: 1rem; font-size: 1rem;">Cadastrar operador</h3>
+        <form id="registerForm" class="form-grid">
+          <div class="form-row">
+            <div>
+              <label for="regNome">Nome</label>
+              <input id="regNome" type="text" required minlength="2" maxlength="120" placeholder="Nome do operador"/>
+            </div>
+            <div>
+              <label for="regEmail">E-mail</label>
+              <input id="regEmail" type="email" required placeholder="operador@empresa.com"/>
+            </div>
+          </div>
+          <div class="form-row">
+            <div>
+              <label for="regSenha">Senha</label>
+              <input id="regSenha" type="password" required minlength="6" placeholder="Mínimo 6 caracteres"/>
+            </div>
+            <div>
+              <label for="regSenha2">Confirmar senha</label>
+              <input id="regSenha2" type="password" required minlength="6" placeholder="Repita a senha"/>
+            </div>
+          </div>
+          <label class="checkbox-row">
+            <input id="regApproved" type="checkbox" checked/>
+            Liberar acesso imediatamente (aprovado)
+          </label>
+          <p id="registerError" class="error"></p>
+          <p id="registerSuccess" class="success"></p>
+          <div class="toolbar-actions">
+            <button type="submit" class="btn btn-sm btn-success">Cadastrar</button>
+            <button type="button" class="btn btn-sm btn-outline" id="hideRegisterBtn">Cancelar</button>
+          </div>
+        </form>
+      </section>
+
+      <div class="stats">
+        <div class="stat"><strong id="statPending">0</strong><span>Aguardando</span></div>
+        <div class="stat"><strong id="statApproved">0</strong><span>Aprovados</span></div>
+        <div class="stat"><strong id="statTotal">0</strong><span>Total</span></div>
+      </div>
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>E-mail</th>
+              <th>Status</th>
+              <th>Cadastro</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="usersBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const TOKEN_KEY = "mamdesk_admin_token";
+    const loginView = document.getElementById("loginView");
+    const panelView = document.getElementById("panelView");
+    const loginError = document.getElementById("loginError");
+    const usersBody = document.getElementById("usersBody");
+
+    function token() { return localStorage.getItem(TOKEN_KEY); }
+    function setToken(t) { localStorage.setItem(TOKEN_KEY, t); }
+    function clearToken() { localStorage.removeItem(TOKEN_KEY); }
+
+    async function api(path, options = {}) {
+      const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
+      const t = token();
+      if (t) headers.Authorization = "Bearer " + t;
+      const res = await fetch("/api" + path, { ...options, headers });
+      if (res.status === 401) {
+        clearToken();
+        showLogin();
+        throw new Error("Sessão expirada");
+      }
+      const text = await res.text();
+      let data = null;
+      try { data = text ? JSON.parse(text) : null; } catch { data = text; }
+      if (!res.ok) {
+        const msg = (data && data.detail) ? data.detail : (text || res.statusText);
+        throw new Error(typeof msg === "string" ? msg : JSON.stringify(msg));
+      }
+      return data;
+    }
+
+    function showLogin() {
+      loginView.classList.remove("hidden");
+      panelView.classList.add("hidden");
+    }
+
+    function showPanel() {
+      loginView.classList.add("hidden");
+      panelView.classList.remove("hidden");
+    }
+
+    function fmtDate(iso) {
+      if (!iso) return "—";
+      return new Date(iso).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" });
+    }
+
+    function renderUsers(users) {
+      const pending = users.filter(u => !u.is_approved && !u.is_admin).length;
+      const approved = users.filter(u => u.is_approved || u.is_admin).length;
+      document.getElementById("statPending").textContent = pending;
+      document.getElementById("statApproved").textContent = approved;
+      document.getElementById("statTotal").textContent = users.length;
+
+      usersBody.innerHTML = users.map(u => {
+        let badge = u.is_admin
+          ? '<span class="badge badge-admin">Admin</span>'
+          : u.is_approved
+            ? '<span class="badge badge-ok">Aprovado</span>'
+            : '<span class="badge badge-pending">Pendente</span>';
+        let actions = "";
+        if (!u.is_admin) {
+          if (!u.is_approved) {
+            actions += `<button class="btn btn-sm btn-success" data-approve="${u.id}">Aprovar</button>`;
+          } else {
+            actions += `<button class="btn btn-sm btn-danger" data-revoke="${u.id}">Revogar</button>`;
+          }
+        }
+        return `<tr>
+          <td data-label="Nome">${escapeHtml(u.nome)}</td>
+          <td data-label="E-mail">${escapeHtml(u.email)}</td>
+          <td data-label="Status">${badge}</td>
+          <td data-label="Cadastro">${fmtDate(u.criado_em)}</td>
+          <td data-label="Ações"><div class="actions">${actions || "—"}</div></td>
+        </tr>`;
+      }).join("");
+
+      usersBody.querySelectorAll("[data-approve]").forEach(btn => {
+        btn.addEventListener("click", () => approveUser(btn.dataset.approve));
+      });
+      usersBody.querySelectorAll("[data-revoke]").forEach(btn => {
+        btn.addEventListener("click", () => revokeUser(btn.dataset.revoke));
+      });
+    }
+
+    function escapeHtml(s) {
+      const d = document.createElement("div");
+      d.textContent = s;
+      return d.innerHTML;
+    }
+
+    async function loadUsers() {
+      const users = await api("/admin/users");
+      renderUsers(users);
+    }
+
+    async function approveUser(id) {
+      await api("/admin/users/" + id + "/approve", { method: "POST" });
+      await loadUsers();
+    }
+
+    async function revokeUser(id) {
+      if (!confirm("Revogar acesso deste operador?")) return;
+      await api("/admin/users/" + id + "/revoke", { method: "POST" });
+      await loadUsers();
+    }
+
+    const registerView = document.getElementById("registerView");
+    const registerError = document.getElementById("registerError");
+    const registerSuccess = document.getElementById("registerSuccess");
+
+    function showRegisterForm() {
+      registerView.classList.remove("hidden");
+      registerError.style.display = "none";
+      registerSuccess.style.display = "none";
+      document.getElementById("regNome").focus();
+    }
+
+    function hideRegisterForm() {
+      registerView.classList.add("hidden");
+      document.getElementById("registerForm").reset();
+      document.getElementById("regApproved").checked = true;
+    }
+
+    document.getElementById("showRegisterBtn").addEventListener("click", showRegisterForm);
+    document.getElementById("hideRegisterBtn").addEventListener("click", hideRegisterForm);
+
+    document.getElementById("registerForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      registerError.style.display = "none";
+      registerSuccess.style.display = "none";
+
+      const nome = document.getElementById("regNome").value.trim();
+      const email = document.getElementById("regEmail").value.trim();
+      const senha = document.getElementById("regSenha").value;
+      const senha2 = document.getElementById("regSenha2").value;
+      const isApproved = document.getElementById("regApproved").checked;
+
+      if (senha !== senha2) {
+        registerError.textContent = "As senhas não coincidem.";
+        registerError.style.display = "block";
+        return;
+      }
+
+      try {
+        await api("/admin/users", {
+          method: "POST",
+          body: JSON.stringify({ nome, email, senha, is_approved: isApproved }),
+        });
+        registerSuccess.textContent = "Operador cadastrado com sucesso!";
+        registerSuccess.style.display = "block";
+        document.getElementById("registerForm").reset();
+        document.getElementById("regApproved").checked = true;
+        await loadUsers();
+        setTimeout(hideRegisterForm, 1500);
+      } catch (err) {
+        registerError.textContent = err.message;
+        registerError.style.display = "block";
+      }
+    });
+
+    document.getElementById("loginForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      loginError.style.display = "none";
+      try {
+        const data = await api("/auth/login", {
+          method: "POST",
+          body: JSON.stringify({
+            email: document.getElementById("email").value.trim(),
+            senha: document.getElementById("password").value,
+          }),
+        });
+        if (!data.usuario.is_admin) {
+          throw new Error("Apenas administradores podem acessar este painel.");
+        }
+        setToken(data.access_token);
+        showPanel();
+        await loadUsers();
+      } catch (err) {
+        loginError.textContent = err.message;
+        loginError.style.display = "block";
+      }
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      clearToken();
+      showLogin();
+    });
+
+    (async () => {
+      if (token()) {
+        try {
+          await api("/auth/me");
+          showPanel();
+          await loadUsers();
+        } catch {
+          showLogin();
+        }
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<Window x:Class="MAMDesk.Operator.Views.RemoteViewWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MAMDesk - Sessão Remota"
+        Height="800" Width="1280"
+        MinHeight="500" MinWidth="900"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Background="#0B1220"
+        Focusable="True">
+    <Grid Focusable="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Barra expandida -->
+        <Border x:Name="ToolbarExpandedPanel" Grid.Row="0"
+                Background="#151B26" BorderBrush="#2A3548" BorderThickness="0,0,0,1" Padding="12,8">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Linha 1: desenho -->
+                <WrapPanel Grid.Row="0" Orientation="Horizontal">
+                    <ToggleButton x:Name="ToolPointerBtn" Content="Ponteiro" Style="{StaticResource ToolbarToggle}"
+                                  IsChecked="True" Click="ToolBtn_Click" Tag="pointer"
+                                  ToolTip="Modo ponteiro"/>
+                    <ToggleButton x:Name="ToolPenBtn" Content="Caneta" Style="{StaticResource ToolbarToggle}"
+                                  Click="ToolBtn_Click" Tag="pen" ToolTip="Desenho livre"/>
+                    <ToggleButton x:Name="ToolRectBtn" Content="Retângulo" Style="{StaticResource ToolbarToggle}"
+                                  Click="ToolBtn_Click" Tag="rect"/>
+                    <ToggleButton x:Name="ToolEllipseBtn" Content="Elipse" Style="{StaticResource ToolbarToggle}"
+                                  Click="ToolBtn_Click" Tag="ellipse"/>
+                    <ToggleButton x:Name="ToolArrowBtn" Content="Seta" Style="{StaticResource ToolbarToggle}"
+                                  Click="ToolBtn_Click" Tag="arrow"/>
+
+                    <Border Width="1" Height="22" Background="#334155" Margin="10,4,10,4" VerticalAlignment="Center"/>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button x:Name="ColorRedBtn" Width="20" Height="20" Margin="3,0" Tag="#EF4444" Click="ColorBtn_Click"
+                                Background="#EF4444" BorderThickness="0" Cursor="Hand" ToolTip="Vermelho">
+                            <Button.Template><ControlTemplate TargetType="Button"><Border Background="{TemplateBinding Background}" CornerRadius="10"/></ControlTemplate></Button.Template>
+                        </Button>
+                        <Button x:Name="ColorGreenBtn" Width="20" Height="20" Margin="3,0" Tag="#22C55E" Click="ColorBtn_Click"
+                                Background="#22C55E" BorderThickness="0" Cursor="Hand" ToolTip="Verde">
+                            <Button.Template><ControlTemplate TargetType="Button"><Border Background="{TemplateBinding Background}" CornerRadius="10"/></ControlTemplate></Button.Template>
+                        </Button>
+                        <Button x:Name="ColorBlueBtn" Width="20" Height="20" Margin="3,0" Tag="#3B82F6" Click="ColorBtn_Click"
+                                Background="#3B82F6" BorderThickness="0" Cursor="Hand" ToolTip="Azul">
+                            <Button.Template><ControlTemplate TargetType="Button"><Border Background="{TemplateBinding Background}" CornerRadius="10"/></ControlTemplate></Button.Template>
+                        </Button>
+                        <Button x:Name="ColorYellowBtn" Width="20" Height="20" Margin="3,0" Tag="#EAB308" Click="ColorBtn_Click"
+                                Background="#EAB308" BorderThickness="0" Cursor="Hand" ToolTip="Amarelo">
+                            <Button.Template><ControlTemplate TargetType="Button"><Border Background="{TemplateBinding Background}" CornerRadius="10"/></ControlTemplate></Button.Template>
+                        </Button>
+                        <Button x:Name="ColorWhiteBtn" Width="20" Height="20" Margin="3,0" Tag="#FFFFFF" Click="ColorBtn_Click"
+                                Background="#FFFFFF" BorderThickness="0" Cursor="Hand" ToolTip="Branco">
+                            <Button.Template><ControlTemplate TargetType="Button"><Border Background="{TemplateBinding Background}" CornerRadius="10"/></ControlTemplate></Button.Template>
+                        </Button>
+                        <Button x:Name="ColorBlackBtn" Width="20" Height="20" Margin="3,0" Tag="#000000" Click="ColorBtn_Click"
+                                Background="#000000" BorderThickness="0" Cursor="Hand" ToolTip="Preto">
+                            <Button.Template><ControlTemplate TargetType="Button"><Border Background="{TemplateBinding Background}" CornerRadius="10"/></ControlTemplate></Button.Template>
+                        </Button>
+                    </StackPanel>
+
+                    <ComboBox x:Name="StrokeWidthCombo" Width="48" Margin="10,0,0,0" VerticalAlignment="Center"
+                              ToolTip="Espessura da linha" SelectedIndex="1"
+                              SelectionChanged="StrokeWidthCombo_SelectionChanged">
+                        <ComboBoxItem Content="2"/>
+                        <ComboBoxItem Content="4"/>
+                        <ComboBoxItem Content="8"/>
+                    </ComboBox>
+
+                    <Button Content="Limpar" Style="{StaticResource ToolbarButton}" Margin="8,0,0,0"
+                            Click="ClearDrawBtn_Click" ToolTip="Apagar anotações"/>
+                </WrapPanel>
+
+                <!-- Linha 2: sessão -->
+                <Grid Grid.Row="1" Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <TextBlock Text="Monitor" Foreground="#64748B" VerticalAlignment="Center"
+                                   Margin="0,0,8,0" FontSize="11"/>
+                        <ComboBox x:Name="MonitorCombo" MinWidth="130" MaxWidth="200" VerticalAlignment="Center"
+                                  DisplayMemberPath="Name" SelectionChanged="MonitorCombo_SelectionChanged"/>
+                        <Button Content="Ctrl+Alt+Del" Style="{StaticResource ToolbarButton}" Margin="8,0,0,0"
+                                Click="CtrlAltDelBtn_Click"/>
+                        <Button Content="Tela cheia" Style="{StaticResource ToolbarButton}" Margin="4,0,0,0"
+                                Click="FullscreenBtn_Click"/>
+                    </StackPanel>
+
+                    <TextBlock x:Name="StatusText" Grid.Column="1" Text="Sessão ativa" Foreground="#94A3B8"
+                               FontSize="11" VerticalAlignment="Center" HorizontalAlignment="Center"
+                               TextTrimming="CharacterEllipsis" MaxWidth="400"/>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        <Button x:Name="ToggleToolbarBtn" Content="▲ Ocultar" Style="{StaticResource ToolbarButton}"
+                                Margin="0,0,8,0" Click="ToggleToolbarBtn_Click" ToolTip="Recolher barra de ferramentas"/>
+                        <Button Content="Encerrar" Style="{StaticResource DangerToolbarButton}"
+                                Click="EndSessionBtn_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- Barra recolhida (fina) -->
+        <Border x:Name="ToolbarCollapsedBar" Grid.Row="0" Visibility="Collapsed"
+                Background="#151B26" BorderBrush="#2A3548" BorderThickness="0,0,0,1" Padding="12,6">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="StatusTextCollapsed" Text="Sessão ativa" Foreground="#94A3B8"
+                           FontSize="11" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                <Button Grid.Column="1" Content="▼ Ferramentas" Style="{StaticResource ToolbarButton}"
+                        Margin="12,0,8,0" Click="ToggleToolbarBtn_Click"/>
+                <Button Grid.Column="2" Content="Encerrar" Style="{StaticResource DangerToolbarButton}"
+                        Click="EndSessionBtn_Click"/>
+            </Grid>
+        </Border>
+
+        <!-- Vídeo -->
+        <Border x:Name="VideoArea" Grid.Row="1" Background="#0B1220" Focusable="True"
+                MouseMove="VideoArea_MouseMove"
+                MouseDown="VideoArea_MouseDown"
+                MouseUp="VideoArea_MouseUp">
+            <Grid>
+                <Viewbox x:Name="VideoViewbox" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid Width="{Binding ElementName=RemoteImage, Path=Width}"
+                          Height="{Binding ElementName=RemoteImage, Path=Height}">
+                        <Image x:Name="RemoteImage" RenderOptions.BitmapScalingMode="LowQuality" IsHitTestVisible="False"/>
+                        <Canvas x:Name="LocalAnnotationCanvas" IsHitTestVisible="False"/>
+                    </Grid>
+                </Viewbox>
+            </Grid>
+        </Border>
+
+        <Border x:Name="DisconnectedOverlay" Grid.Row="1" Background="#CC0B1220" Visibility="Collapsed">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="420">
+                <TextBlock Text="Conexão encerrada" FontSize="28" FontWeight="SemiBold"
+                           Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,12"/>
+                <TextBlock x:Name="DisconnectReasonText" TextWrapping="Wrap" TextAlignment="Center"
+                           Foreground="#94A3B8" FontSize="14" Margin="0,0,0,28" LineHeight="22"/>
+                <Button Content="Fechar janela" Style="{StaticResource PrimaryButton}" Padding="28,12"
+                        HorizontalAlignment="Center" Click="CloseSessionBtn_Click"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

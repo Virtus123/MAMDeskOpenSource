@@ -1,0 +1,78 @@
+<Window x:Class="MAMDesk.QuickSupport.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MAMDesk Quick Support"
+        Height="460" Width="380"
+        MinHeight="420" MinWidth="340"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize"
+        Background="{StaticResource BgBrush}">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,24">
+            <TextBlock Text="MAMDesk" FontSize="22" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}"/>
+            <TextBlock Text="Suporte Remoto" FontSize="13" Foreground="{StaticResource MutedBrush}" Margin="0,2,0,0"/>
+        </StackPanel>
+
+        <Border Grid.Row="1" Background="{StaticResource CardBrush}" CornerRadius="12"
+                Padding="24" BorderBrush="#E2E8F0" BorderThickness="1">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="Seu ID" FontSize="13" Foreground="{StaticResource MutedBrush}" HorizontalAlignment="Center"/>
+                <Grid Margin="0,8,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="DeviceIdText" Grid.Column="0" Text="--- --- ---"
+                               FontSize="32" FontWeight="Bold" Foreground="{StaticResource TextBrush}"
+                               HorizontalAlignment="Center" FontFamily="Consolas"/>
+                    <Button Grid.Column="1" x:Name="CopyIdBtn" Content="Copiar" Padding="10,6" Margin="8,0,0,0"
+                            VerticalAlignment="Center" Click="CopyIdBtn_Click" Cursor="Hand"
+                            Background="#EFF6FF" BorderBrush="#BFDBFE" Foreground="{StaticResource PrimaryBrush}"/>
+                </Grid>
+
+                <TextBlock Text="Senha de acesso" FontSize="13" Foreground="{StaticResource MutedBrush}" HorizontalAlignment="Center"/>
+                <Grid Margin="0,8,0,12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="PasswordText" Grid.Column="0" Text="------"
+                               FontSize="28" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}"
+                               HorizontalAlignment="Center" FontFamily="Consolas"/>
+                    <Button Grid.Column="1" x:Name="CopyPasswordBtn" Content="Copiar" Padding="10,6" Margin="8,0,0,0"
+                            VerticalAlignment="Center" Click="CopyPasswordBtn_Click" Cursor="Hand"
+                            Background="#EFF6FF" BorderBrush="#BFDBFE" Foreground="{StaticResource PrimaryBrush}"/>
+                </Grid>
+
+                <Button x:Name="CopyBothBtn" Content="Copiar ID e senha" Padding="12,8" Margin="0,0,0,12"
+                        Click="CopyBothBtn_Click" HorizontalAlignment="Center" Cursor="Hand"
+                        Background="{StaticResource PrimaryBrush}" Foreground="White" BorderThickness="0"/>
+
+                <Button x:Name="RefreshPasswordBtn" Content="Gerar nova senha" Padding="12,6" Margin="0,0,0,16"
+                        Click="RefreshPasswordBtn_Click" HorizontalAlignment="Center"
+                        Background="Transparent" BorderBrush="#CBD5E1" Cursor="Hand"/>
+
+                <TextBlock x:Name="CopyFeedbackText" Text="" FontSize="11" Foreground="#22C55E"
+                           HorizontalAlignment="Center" Margin="0,0,0,8" Visibility="Collapsed"/>
+
+                <Border Background="#F1F5F9" CornerRadius="8" Padding="12,8">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Ellipse x:Name="StatusDot" Width="10" Height="10" Fill="#22C55E" Margin="0,0,8,0"/>
+                        <TextBlock x:Name="StatusText" Text="Aguardando conexão..." FontSize="13"
+                                   Foreground="{StaticResource TextBrush}"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Border>
+
+        <TextBlock Grid.Row="2" Text="Informe o ID e a senha ao operador de suporte."
+                   FontSize="11" Foreground="{StaticResource MutedBrush}"
+                   TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,16,0,0"/>
+    </Grid>
+</Window>

@@ -1,0 +1,48 @@
+# Build / publish
+client/dist/
+client/dist-build/*.exe
+client/dist-build/checksums.txt
+client/dist-build/temp-*/
+client/publish/
+client/publish-*/
+client/**/bin/
+client/**/obj/
+client/**/*.user
+client/.vs/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+# Secrets / local config
+.env
+.env.*
+!.env.example
+!**/.env.example
+deploy/.env
+*.pfx
+*.p12
+*.pem
+signing/
+
+# IDE / OS
+.vscode/
+.idea/
+*.suo
+*.swp
+Thumbs.db
+Desktop.ini
+
+# Logs / temp
+*.log
+*.tmp
+*.bak
+
+# Server runtime
+server/.env
+server/data/

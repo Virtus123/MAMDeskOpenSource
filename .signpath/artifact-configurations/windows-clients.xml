@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<artifact-configuration xmlns="http://signpath.io/artifact-configuration/v1">
+  <!-- ZIP enviado pelo GitHub Actions com os dois clientes Windows -->
+  <zip-file>
+    <pe-file path="MAMDesk.QuickSupport.exe">
+      <authenticode-sign />
+    </pe-file>
+    <pe-file path="MAMDesk.Operator.exe">
+      <authenticode-sign />
+    </pe-file>
+  </zip-file>
+</artifact-configuration>

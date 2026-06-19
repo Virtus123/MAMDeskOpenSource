@@ -1,0 +1,20 @@
+MAMDesk — Instalação rápida
+===========================
+
+1. Extraia TODO o conteúdo desta pasta ZIP (botão direito > Extrair tudo).
+   Não execute direto de dentro do ZIP!
+
+2. Clique duas vezes em "Desbloquear.bat" (remove o bloqueio do Windows após download).
+
+3. Abra o programa:
+   - Quick Support: MAMDesk.QuickSupport.exe
+   - Operador:      MAMDesk.Operator.exe
+
+Se o Windows SmartScreen avisar:
+   • Clique em "Mais informações"
+   • Depois em "Executar assim mesmo"
+
+O MAMDesk é software open source de suporte remoto (https://github.com/Virtus123/MAMDesk).
+Antivírus podem alertar em apps novos sem assinatura digital — use releases assinadas quando disponíveis.
+
+Documentação: https://github.com/Virtus123/MAMDesk

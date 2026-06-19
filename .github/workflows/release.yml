@@ -1,0 +1,93 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-sign:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Build single-file executables
+        shell: pwsh
+        run: ./client/build-single.ps1
+
+      - name: Pack unsigned artifact
+        shell: pwsh
+        run: |
+          $zip = "mamdesk-windows-unsigned.zip"
+          Compress-Archive -Force `
+            -Path client/dist-build/MAMDesk.QuickSupport.exe, client/dist-build/MAMDesk.Operator.exe `
+            -DestinationPath $zip
+          Get-Item $zip | Format-List Name, Length
+
+      - name: Upload unsigned artifact
+        id: upload-unsigned
+        uses: actions/upload-artifact@v4
+        with:
+          name: mamdesk-windows-unsigned
+          path: mamdesk-windows-unsigned.zip
+          if-no-files-found: error
+
+      - name: Submit to SignPath
+        if: ${{ secrets.SIGNPATH_API_TOKEN != '' }}
+        uses: signpath/github-action-submit-signing-request@v2
+        env:
+          SIGNPATH_SIGNING_POLICY_SLUG: |
+            ${{ (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/') || github.event_name == 'release')
+            && 'release-signing'
+            || 'test-signing' }}
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: MAMDesk
+          signing-policy-slug: ${{ env.SIGNPATH_SIGNING_POLICY_SLUG }}
+          github-artifact-id: ${{ steps.upload-unsigned.outputs.artifact-id }}
+          wait-for-completion: true
+          output-artifact-directory: signed
+
+      - name: Extract signed executables
+        if: ${{ secrets.SIGNPATH_API_TOKEN != '' }}
+        shell: pwsh
+        run: |
+          Expand-Archive -Force signed/mamdesk-windows-unsigned.zip -DestinationPath signed-out
+          Get-ChildItem signed-out
+
+      - name: Upload signed artifact
+        if: ${{ secrets.SIGNPATH_API_TOKEN != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: mamdesk-windows-signed
+          path: signed-out/*.exe
+          if-no-files-found: error
+
+      - name: Attach to GitHub Release
+        if: github.event_name == 'release' && secrets.SIGNPATH_API_TOKEN != ''
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            signed-out/MAMDesk.QuickSupport.exe
+            signed-out/MAMDesk.Operator.exe
+
+      - name: Upload unsigned (SignPath not configured)
+        if: ${{ secrets.SIGNPATH_API_TOKEN == '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: mamdesk-windows-unsigned-exes
+          path: |
+            client/dist-build/MAMDesk.QuickSupport.exe
+            client/dist-build/MAMDesk.Operator.exe
