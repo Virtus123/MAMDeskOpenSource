@@ -25,6 +25,7 @@ venv/
 !.env.example
 !**/.env.example
 deploy/.env
+deploy/ssh/
 *.pfx
 *.p12
 *.pem
@@ -46,3 +47,4 @@ Desktop.ini
 # Server runtime
 server/.env
 server/data/
+
